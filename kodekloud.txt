@@ -1,0 +1,214 @@
+https://codeshare.io/kodekloud_saravanan
+https://codeshare.io/kodekloud_saravanan_AWS
+GIT COMMANDS: Username:Saravanan2673 Password:Saravanan@2673
+==============
+
+Notes:
+=======
+1.Head is the pointer for the specific commit in git.
+
+1. Before installing git to your system, update apt for debian based system
+# sudo apt update
+
+2. Install git command:
+# sudo dnf install git-y for rpm based # sudo apt install git-y for debain based
+
+3. Before committing a file, you need to set
+# git config user.name "sarah"
+# git config user.mail "sarah@example.com"
+
+4. To remove a file from staging area:
+# git restore --staged <filename>
+
+5. To remove a file from staging area
+# git rm --cached <filename>
+
+6. To ignore a file from our local directory to get staged when using git add . comand
+# echo "notes.txt" >> .gitignore
+
+7. To display two committed last 2 commits:
+# git log -n 2
+========================================================================================================================================================
+LINUX COMMANDS:
+==============
+
+Notes:
+* ~ represent the home directory
+
+1. To check which OS installed on you machine
+# cat /etc/*release*
+
+2. pushd and popd command
+# pushd /etc/passwd 
+# popd
+
+SHELL SCRIPTING:
+================
+Command for running the script file without .sh extension
+# export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:usr/bin:/sbin:/bin:/home/bob
+# export PATH=$PATH:/home/bob
+
+=======================================================================================================================================================
+JENKINS: Container Integration Server
+==============
+* Jenkins is a open source, which supports automated CI/CD pipline, deployments, ability to install jenkins locally, jenkins support and plugins etc..,
+
+* CI/CD is a way to collect the data. Package it up and deploy into the sysytem
+
+* install Jenkins on local: https://www.jenkins.io/
+
+* We need to install java as a pre requesite for jenkins.
+# sudo yum install epel-release -y; sudo yum install java-11-openjdk -y; sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo --no-check-certificate; sudo rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key; sudo yum install jenkins -y
+# sudo vi /lib/systemd/system/jenkins.service
+# sudo systemctl start jenkins
+
+*Install a plugin through cli:
+# java -jar jenkins-cli.jar -s http://localhost:8085 -auth 'admin:Adm!n321' install-plugin cloudbees-bitbucket-branch-source
+
+* Prometheus and Grafana is a monitoring tools can be used in Jenkins
+
+* Groovy is a kind of programming language. Kind of java extender
+
+Sample Jenkins File:
+pipeline {
+    agent {
+        label {
+            label 'master'
+            customWorkspace "${JENKINS_HOME}/${BUILD_NUMBER}/"
+        }
+    }
+    environment {
+        Go111MODULE='on'
+    }
+    stages {
+        stage('Test') {
+            steps {
+                git 'https://github.com/kodekloudhub/go-webapp-sample.git'
+            }
+        }
+        stage('build') {
+            steps {
+                script{
+                    image = docker.build("adminturneddevops/go-webapp-sample")
+                }
+            }
+        }
+    }
+}
+
+* For security concerns and performance concerns, jenkins task can be executed on the build agents. A build agent is typically a machine, or container, which connects to a Jenkins controller and executes tasks when directed by the controller.
+
+=====================================================================================================================================================================
+TERRAFORM:
+============
+
+NOTES:
+1. Configuration Management - Chef, Amsible and Salt stack. Server templating - Docker, Packer, Vagrant. Proviosioning tools - Terraform, Cloudformation
+2. Terraform is defined by Hashicorp Defined Language.
+3. Terraform state file is a json datastructure that maps real worl infrastructure resources to the resource definition of the conf file
+4. terraform resfresh command will only modify the state file
+5. Plugins are downloaded in the configuration file dir (ie) .terraform/plugins
+Terraform install commands:
+# wget https://releases.hashicorp.com/terraform/0.13.0/terraform_0.13.0_linux_amd64.zip
+# unzip terraform_0.13.0_linux_amd64.zip
+# mv terraform /usr/local/bin
+# terraform --version
+
+Terraform provider file:
+{
+  "registry.terraform.io/nbering/ansible": {
+    "hash": "h1:G9OI+CZMXBdfe0Oa+/B7zOVronatrovHxDlvpuy5VOE=",
+    "version": "1.0.4"
+  }
+
+================================================================================================================================================================
+DOCKER:    Username:SaravananSivakumar Password:Saravanan@2673    
+=========
+Links:  
+https://hub.docker.com/explore
+https://38283-port-e14f7a587e2a4635.labs.kodekloud.com/
+
+Docker Compose:
+https://docs.docker.com/compose/
+https://docs.docker.com/engine/reference/commandline/compose/
+
+Jenkins:
+https://www.jenkins.io/blog/2018/12/10/the-official-Docker-image/
+https://hub.docker.com/r/jenkins/jenkins/
+
+App deployment:
+1. https://github.com/mmumshad/simple-webapp-flask   pre-requsite - apt-get update, apt-get install -y python, apt-get install python-pip, pip install flask, cat /opt/app.py, FLASK_APP=/opt/app.py flask run --host=0.0.0.0 --port=8080  ; cat Dockerfile, docker build . -t mysimple-webapp; docker push kodekloud/simple-webapp, do docker login to push to docker repo
+2. https://github.com/dockersamples/example-voting-app
+
+1.What is microservices? Some type of application is easier to build when they are broken down into smaller, composable pieces. Each component is developed separately. If any of the component goes down, it wont affect the entire Application. Docker runs in an non-interractive mode. if you want to make the input, then run # docker run -it kodekloud/simple-prompt-docker
+2. What is DockerHUB? its just a git repo for a docker image. If the docker image is available in local it will pull the image from there, orelse it can pull the image from registry.hub.docker.com
+3. If you have installed an application on docker container and want to access UI. Then 2 methods. 1. Using internal IP, should be on the docker host only. 2. Mapping an port to docker host and accessing it with external port 
+4. Docker daemon is the background process that manages background process such as images, container, vol, networks. Rest api server is the API interface that used to talk to the daemon and provide instructions. Docker engine - Daemon, rest api, cli.
+5. OS kernel is used to interact with the underlying hardware
+6. Docker container are meant to perform specific task or process such as running webservice, computations or analysis task. Once the task completes, container exits
+
+docker_install.sh
+#To uninstall previous docker packages:
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+#Proceed with below steps for installations:
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+docker --version
+systemctl start docker
+docker run docker/whalesay cowsay saravanan
+
+Build a centos container with docker image:
+# sudo systemctl status docker
+# docker pull centos
+# docker run -it centos
+
+# sudo docker run ubuntu (to pull the image)
+# sudo docker run -it ubuntu (to build the docker container)
+# sudo docker ps (to check running docker container image)
+
+To execute a command inside the container with docker host:
+# docker exec <container_id> cat /etc/*release*
+
+To remove docker image:
+# docker rmi <container_id> - Make sure no containers are running this image
+
+To store the image local on your host
+# docker pull <image_name>
+
+To stop all the containers at once, run the command: 
+# docker stop $(docker ps -aq)
+
+To remove all the stopped containers at once, run the command: 
+# docker rm $(docker ps -aq)
+
+Run a container with the nginx:1.14-alpine image and name it webapp
+# docker run -d --name webapp nginx:1.14-alpine
+
+To map a port to docker container:
+# docker run -p 80:5000 kodekloud/docker
+
+Run volume mapping
+# docker run -v /opt/datadir:/var/lib/mysql mysql
+# docker run -v /root/ss:/var/jenkins_home -u root jenkins
+
+To inspect container:
+# docker inspect <container_id>
+
+To see logs:
+# docker logs <container_id>
+
+To display time every sec:
+# docker run -d timer # docker attach <container_id>
+
+To see the file size of the packages and installation of the docker file:
+# docker history kodekloud/apps
+
+To run docker command away from docker host:
+# docker -H=remote-docker-engine:2375 run nginx
+
+Run a mysql container named mysql-db using the mysql image. Set database password to db_pass123
+# docker run -d --name mysql-db -e MYSQL_ROOT_PASSWORD=db_pass123 mysql
+
+Run a mysql container again, but this time map a volume to the container so that the data stored by the container is stored at /opt/data on the host.
+# docker run -v /opt/data:/var/lib/mysql -d --name mysql-db -e MYSQL_ROOT_PASSWORD=db_pass123 mysql

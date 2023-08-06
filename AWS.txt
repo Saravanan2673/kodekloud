@@ -1,0 +1,8 @@
+AWS:
+===
+Elastic Container Service:
+=========================
+1. docker-compose.yml contains all the configuration of the containers, but i can be applied to only one server, which will conflict single point of failure
+
+2. ECS has two launch types  * EC2 * Fargate - serverless architecture which will create a on-demand instances
+
